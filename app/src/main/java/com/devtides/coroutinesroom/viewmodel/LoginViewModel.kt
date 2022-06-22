@@ -1,10 +1,9 @@
 package com.devtides.coroutinesroom.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel : ViewModel() {
 
     val loginComplete = MutableLiveData<Boolean>()
     val error = MutableLiveData<String>()
