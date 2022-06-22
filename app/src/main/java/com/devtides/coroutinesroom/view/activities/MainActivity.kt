@@ -1,4 +1,4 @@
-package com.devtides.coroutinesroom.view
+package com.devtides.coroutinesroom.view.activities
 
 import android.os.Bundle
 import android.view.WindowManager

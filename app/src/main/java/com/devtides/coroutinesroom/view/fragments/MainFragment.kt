@@ -1,16 +1,16 @@
-package com.devtides.coroutinesroom.view
+package com.devtides.coroutinesroom.view.fragments
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import com.devtides.coroutinesroom.AppDatabase
 import com.devtides.coroutinesroom.R
 import com.devtides.coroutinesroom.databinding.FragmentMainBinding
+import com.devtides.coroutinesroom.model.LoginState
 import com.devtides.coroutinesroom.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -29,24 +29,24 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         viewModel.signout.observe(viewLifecycleOwner, userDeletedObserver)
         viewModel.userDeleted.observe(viewLifecycleOwner, signoutObserver)
+
+        viewModel.loadDatabase(AppDatabase(requireContext()).userDao())
+
+        binding.usernameTV.text = LoginState.getUserName()
     }
 
     private val userDeletedObserver = Observer<Boolean> {
-
+        val action = MainFragmentDirections.actionGoToSignup()
+        Navigation.findNavController(usernameTV).navigate(action)
     }
 
     private val signoutObserver = Observer<Boolean> {
-
-    }
-
-    private fun onSignout() {
         val action = MainFragmentDirections.actionGoToSignup()
         Navigation.findNavController(usernameTV).navigate(action)
     }
 
-    private fun onDelete() {
-        val action = MainFragmentDirections.actionGoToSignup()
-        Navigation.findNavController(usernameTV).navigate(action)
-    }
+    private fun onSignout() { viewModel.onSignout() }
+
+    private fun onDelete() { viewModel.onDeleteUser() }
 
 }
