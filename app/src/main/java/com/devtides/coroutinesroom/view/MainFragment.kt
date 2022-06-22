@@ -33,7 +33,7 @@ class MainFragment : Fragment() {
         observeViewModel()
     }
 
-    fun observeViewModel() {
+    private fun observeViewModel() {
         viewModel.signout.observe(viewLifecycleOwner, Observer {
 
         })
