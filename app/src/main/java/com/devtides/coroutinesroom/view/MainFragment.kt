@@ -10,36 +10,33 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.devtides.coroutinesroom.R
+import com.devtides.coroutinesroom.databinding.FragmentMainBinding
 import com.devtides.coroutinesroom.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
+    private lateinit var binding: FragmentMainBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding = FragmentMainBinding.bind(view)
+
         signoutBtn.setOnClickListener { onSignout() }
         deleteUserBtn.setOnClickListener { onDelete() }
 
-        observeViewModel()
+        viewModel.signout.observe(viewLifecycleOwner, userDeletedObserver)
+        viewModel.userDeleted.observe(viewLifecycleOwner, signoutObserver)
     }
 
-    private fun observeViewModel() {
-        viewModel.signout.observe(viewLifecycleOwner, Observer {
+    private val userDeletedObserver = Observer<Boolean> {
 
-        })
-        viewModel.userDeleted.observe(viewLifecycleOwner, Observer {
+    }
 
-        })
+    private val signoutObserver = Observer<Boolean> {
+
     }
 
     private fun onSignout() {
